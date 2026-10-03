@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "target": "aarch64-unknown-linux-gnu",
+  "distribution": "Debian 13 trixie",
+  "openttd": {
+    "version": "15.3",
+    "url": "https://github.com/petitstrawberry/OpenTTD.git",
+    "revision": "75b543bc25192609092e8024928f37c4af95f712"
+  },
+  "opengfx": {
+    "version": "8.0",
+    "url": "https://github.com/OpenTTD/OpenGFX.git",
+    "revision": "e68bd9b7cb60305aa98c687b6836e0e0b08e2847",
+    "binary_url": "https://cdn.openttd.org/opengfx-releases/8.0/opengfx-8.0-all.zip",
+    "binary_sha256": "43a0c1dabf39cb865394f3a6cc36d4da5c10ecfaaf55652043104806810903be"
+  }
+}

@@ -1,0 +1,34 @@
+name: Linux games producer
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          bash -n producer/build.sh producer/build_container.sh
+          sh -n producer/build-openttd-bundle.sh
+          for script in producer/recipes/openttd/*.sh tests/*.sh; do sh -n "$script"; done
+          python3 -m py_compile producer/*.py
+          python3 -m json.tool producer/games.json >/dev/null
+          python3 -m json.tool producer/sources.lock.json >/dev/null
+          python3 tests/test_dependencies.py
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash producer/build_container.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openttd-aarch64-runtime-and-sources
+          path: artifacts/
+          if-no-files-found: error
+          compression-level: 0

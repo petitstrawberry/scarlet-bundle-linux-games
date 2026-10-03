@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=OpenTTD
+Comment=Build and manage a transport company
+Exec=/bin/openttd
+Icon=games
+Type=Application
+Terminal=false

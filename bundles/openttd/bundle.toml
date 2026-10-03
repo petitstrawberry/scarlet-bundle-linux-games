@@ -1,0 +1,5 @@
+# AArch64 Debian/glibc application. Select GAMES=openttd in the Debian producer.
+[[layers]]
+kind = "script"
+source = "../../producer/build-openttd-bundle.sh"
+to = "/"

@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "games": {
+    "openttd": {
+      "bundle": "bundles/openttd/bundle.toml",
+      "runtime_packages": "producer/recipes/openttd/runtime-packages.txt",
+      "requires_graphics": true
+    }
+  }
+}
