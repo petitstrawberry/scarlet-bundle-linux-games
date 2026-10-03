@@ -11,5 +11,5 @@ if [ ! -f "$state/openttd.cfg" ]; then
 fi
 cd "$state"
 exec /usr/local/bin/scarlet-gl "$app/openttd" \
-    -x -c "$state/openttd.cfg" -I OpenGFX -v sdl-opengl \
+    -c "$state/openttd.cfg" -I OpenGFX -v sdl-opengl \
     -b 40bpp-anim -s null -m null -r 628x300 -d driver=2 "$@"

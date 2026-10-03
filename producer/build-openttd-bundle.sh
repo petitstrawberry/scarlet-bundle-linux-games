@@ -6,7 +6,19 @@ revision=$(git -C "$root" rev-parse HEAD)
 if [ -n "$(git -C "$root" status --porcelain)" ]; then echo 'Commit producer changes before building' >&2; exit 2; fi
 output="$root/producer/cache/bundle-$revision"
 if [ ! -f "$output/validated-producer-revision" ]; then
-    GAMES_OUTPUT="$output" bash "$root/producer/build_container.sh"
+    mkdir -p "$root/producer/cache"
+    temporary=$(mktemp -d "$root/producer/cache/.openttd-$revision.XXXXXXXX")
+    GAMES_OUTPUT="$temporary" bash "$root/producer/build_container.sh"
+    python3 - "$temporary" "$output" "$revision" <<'PY'
+import pathlib, shutil, sys
+temporary, output = map(pathlib.Path, sys.argv[1:3])
+try:
+    temporary.rename(output)
+except FileExistsError:
+    if (output / 'validated-producer-revision').read_text().strip() != sys.argv[3]:
+        raise SystemExit('Existing bundle cache has a different producer revision')
+    shutil.rmtree(temporary)
+PY
 fi
 test "$(cat "$output/validated-producer-revision")" = "$revision"
 python3 - "$output/runtime" "$destination" <<'PY'
