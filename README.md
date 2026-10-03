@@ -13,8 +13,8 @@ On an AArch64 Docker-capable host (including Apple Silicon), in a clean checkout
 bash producer/build_container.sh
 ```
 
-`artifacts/runtime/` is an overlay rooted at Scarlet `/`: native launcher
-`/bin/openttd`, desktop entry `/etc/stemd.d/apps/org.scarlet-os.games.openttd.desktop`,
+`artifacts/runtime/` is an overlay rooted at Scarlet `/`: desktop entry
+`/etc/stemd.d/apps/org.scarlet-os.games.openttd.desktop`,
 and Linux application `/systems/linux-aarch64/opt/openttd-zink`. Corresponding
 sources are in `artifacts/sources/`. No shared libraries are bundled.
 
@@ -39,7 +39,10 @@ subdir = "bundles/openttd"
 
 The matching native bridge must be running. Its default socket is `wayland-0`;
 override `WAYLAND_DISPLAY` when using a dedicated validation bridge. Launch
-OpenTTD from the desktop entry or run `/bin/openttd`. The Linux launcher selects
+OpenTTD from the desktop entry or run
+`abi-run linux-aarch64 /bin/sh /opt/openttd-zink/run-zink.sh`.
+The desktop entry invokes `abi-run` directly; it does not depend on native
+shell `exec` or positional-argument expansion. The Linux launcher selects
 the shared `scarlet-gl` runtime, explicitly requires `sdl-opengl`, and keeps
 configuration/saves in the user's state directory. It uses windowed 628x300
 initial size so the toolbar and ScarletUI frame fit the scale-2 test display.

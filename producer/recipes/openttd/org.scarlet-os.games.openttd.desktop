@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=OpenTTD
 Comment=Build and manage a transport company
-Exec=/bin/openttd
+Exec=/bin/abi-run linux-aarch64 /bin/sh /opt/openttd-zink/run-zink.sh
 Icon=games
 Type=Application
 Terminal=false

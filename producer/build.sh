@@ -20,17 +20,21 @@ cmake -S "$source" -B "$work/openttd-build" -G Ninja \
     -DCMAKE_DISABLE_FIND_PACKAGE_LZO=ON -DCMAKE_DISABLE_FIND_PACKAGE_unofficial-breakpad=ON \
     -DCMAKE_DISABLE_FIND_PACKAGE_Grfcodec=ON -DCMAKE_DISABLE_FIND_PACKAGE_Doxygen=ON
 cmake --build "$work/openttd-build" --target openttd --parallel "${BUILD_JOBS:-4}"
+# Preserve upstream's version metadata for source-tree-only rebuilds.
+(cd "$source"; cmake -DREV_MAJOR=15 -DREV_MINOR=3 -DGENERATE_OTTDREV=ON \
+    -P "$source/cmake/scripts/FindVersion.cmake")
+cp "$source/.ottdrev" "$output/sources/upstream/openttd/.ottdrev"
+rm "$source/.ottdrev"
 linux_root="$output/runtime/systems/linux-aarch64"
 DESTDIR="$linux_root" cmake --install "$work/openttd-build"
 app="$linux_root/opt/openttd-zink"
-mkdir -p "$app/baseset" "$app/licenses" "$output/runtime/bin" "$output/runtime/etc/stemd.d/apps"
+mkdir -p "$app/baseset" "$app/licenses" "$output/runtime/etc/stemd.d/apps"
 unzip -p "$work/opengfx-8.0-all.zip" opengfx-8.0.tar > "$app/baseset/opengfx-8.0.tar"
 tar -xOf "$app/baseset/opengfx-8.0.tar" opengfx-8.0/license.txt > "$app/licenses/OpenGFX"
 install -m 644 "$source/COPYING.md" "$app/licenses/OpenTTD"
 install -m 644 "$root/LICENSE" "$root/ATTRIBUTION.md" "$app/licenses/"
 install -m 644 "$root/producer/recipes/openttd/openttd-zink.cfg" "$app/"
 install -m 755 "$root/producer/recipes/openttd/run-zink.sh" "$app/"
-install -m 755 "$root/producer/recipes/openttd/launch-scarlet.sh" "$output/runtime/bin/openttd"
 install -m 644 "$root/producer/recipes/openttd/org.scarlet-os.games.openttd.desktop" "$output/runtime/etc/stemd.d/apps/"
 mkdir -p "$output/sources/producer"
 cp -a "$root/producer" "$root/bundles" "$root/tests" "$root/.github" "$root/.dockerignore" "$root/.gitignore" \
