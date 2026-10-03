@@ -33,7 +33,7 @@ Select a fixed producer revision in the Scarlet bundle source:
 ```toml
 [[layers]]
 kind = "bundle"
-source = { git = "https://github.com/petitstrawberry/scarlet-bundle-linux-games.git", rev = "<exact-40-character-commit>" }
+source = { git = "https://github.com/petitstrawberry/scarlet-bundle-linux-games.git", rev = "7ea31e4100ba183db05461f8e2f2d2ea96aad849" }
 subdir = "bundles/openttd"
 ```
 
@@ -49,11 +49,19 @@ initial size so the toolbar and ScarletUI frame fit the scale-2 test display.
 Sound/music backends are disabled in this initial bundle; the menu starts
 normally rather than generating a validation map automatically.
 
-The earlier patched OpenTTD binary passed gameplay/pan/zoom/close on Scarlet
-QEMU/VirGL with the common Debian-built graphics runtime. This producer rebuilds
-OpenTTD in Debian; Linux dependency/help success alone is not new gameplay
-validation. Real hardware and fullscreen remain unverified/unsupported in the
-tested path. See `ATTRIBUTION.md` for source distribution.
+The Debian-built binary from producer revision
+`7ea31e4100ba183db05461f8e2f2d2ea96aad849` was checked on 2026-10-03 in the
+dedicated Scarlet QEMU/HVF/VirGL snapshot. The shared runtime reported Zink on
+`SGFX Vulkan (Scarlet VirGL GPU 0)`; menu startup, map generation, pan/zoom,
+unpause, close and writable user configuration passed. Its binary SHA256 is
+`84ccf98a753f03b0dccb704a5971f6c83ef208a1c4a4cbc833f1c9d0f3fbae21`.
+The desktop entry's direct ABI command was exercised from the native shell;
+clicking the new entry in Scarlet's app menu and booting the entire newly
+generated rootfs were not checked. Linux-container checks additionally verified
+the game's common private SDL linkage and Debian ownership of libpng. The rootfs
+and corresponding-source archives passed checksum/loader/dependency checks.
+Real hardware and fullscreen remain unverified/unsupported in the tested path.
+See `ATTRIBUTION.md` for source distribution.
 
 Add later games as catalog entries, `bundles/<game>`, recipes and runtime package
 lists. The catalog/dependency resolver accepts only explicitly selected games.
