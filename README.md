@@ -49,6 +49,13 @@ initial size so the toolbar and ScarletUI frame fit the scale-2 test display.
 Sound/music backends are disabled in this initial bundle; the menu starts
 normally rather than generating a validation map automatically.
 
+FreeType and Fontconfig are enabled so selecting Japanese can resolve a system
+font instead of remaining on Latin-only sprite fonts. The matching Debian
+game dependency selection installs `fonts-ipafont-gothic`, font libraries and
+Fontconfig; fonts and shared libraries remain owned by Debian. Existing user
+configuration does not need a hard-coded font filename. ICU/HarfBuzz remain
+disabled, so right-to-left language shaping is not supported by this build.
+
 The Debian-built binary from producer revision
 `7ea31e4100ba183db05461f8e2f2d2ea96aad849` was checked on 2026-10-03 in the
 dedicated Scarlet QEMU/HVF/VirGL snapshot. The shared runtime reported Zink on

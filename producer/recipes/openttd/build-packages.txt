@@ -13,6 +13,8 @@ libopengl-dev
 zlib1g-dev
 liblzma-dev
 libpng-dev
+libfreetype6-dev
+libfontconfig1-dev
 unzip
 zstd
 file

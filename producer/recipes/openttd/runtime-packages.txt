@@ -2,5 +2,9 @@ libc6
 libgcc-s1
 libstdc++6
 libpng16-16t64
+libfreetype6
+libfontconfig1
+fontconfig
+fonts-ipafont-gothic
 zlib1g
 liblzma5

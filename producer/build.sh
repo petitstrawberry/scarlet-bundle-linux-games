@@ -10,11 +10,12 @@ mkdir -p "$work" "$output/runtime" "$output/sources"
 python3 "$root/producer/fetch_sources.py" "$work" "$output"
 revision="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["openttd"]["revision"])' "$root/producer/sources.lock.json")"
 source="$work/openttd-$revision"
+pkg-config --exists freetype2 fontconfig
 cmake -S "$source" -B "$work/openttd-build" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/openttd-zink \
     -DOPTION_INSTALL_FHS=OFF -DOPTION_DEDICATED=OFF \
     -DCMAKE_DISABLE_FIND_PACKAGE_Allegro=ON -DCMAKE_DISABLE_FIND_PACKAGE_CURL=ON \
-    -DCMAKE_DISABLE_FIND_PACKAGE_Freetype=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON \
+    -DCMAKE_DISABLE_FIND_PACKAGE_Freetype=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=OFF \
     -DCMAKE_DISABLE_FIND_PACKAGE_Harfbuzz=ON -DCMAKE_DISABLE_FIND_PACKAGE_ICU=ON \
     -DCMAKE_DISABLE_FIND_PACKAGE_Fluidsynth=ON -DCMAKE_DISABLE_FIND_PACKAGE_OpusFile=ON \
     -DCMAKE_DISABLE_FIND_PACKAGE_LZO=ON -DCMAKE_DISABLE_FIND_PACKAGE_unofficial-breakpad=ON \
